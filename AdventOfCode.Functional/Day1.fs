@@ -1,11 +1,10 @@
 namespace AdventOfCode.Functional
 
 module D1 =
-    let test = "abcde"
     let splitStr (s: string): int * int =
         let nums = s.Split([|' '|], System.StringSplitOptions.RemoveEmptyEntries)
         match List.ofArray nums with
-        | (x::y::[])    -> (int x, int y)
+        | (x::y::_)    -> (int x, int y)
         | _             -> (0, 0)
 
     let rec getNumListsFn (lines: string list) (acc1: int list) (acc2: int list): int list * int list =
