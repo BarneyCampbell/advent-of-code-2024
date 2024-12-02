@@ -20,16 +20,16 @@ public class Tests
         var expected = "";
         var result = d2.Part2();
 
-        Assert.Pass();
+        Assert.That(expected, Is.EqualTo(result));
     }
 
     [Test]
     public void Day2_Part1()
     {
-        var expected = "";
-        var result = d2.Part1();
+        var expected = "2";
+        var result = d2.Part2();
 
-        Assert.Pass();
+        Assert.That(expected, Is.EqualTo(result));
     }
     #endregion
 
