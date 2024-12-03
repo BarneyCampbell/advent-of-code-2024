@@ -1,6 +1,7 @@
 namespace AdventOfCode.Days;
 
 using AdventOfCode.Functional;
+using AdventOfCode.Lib;
 
 public class Day2(string _input) : IDay
 {
@@ -26,24 +27,25 @@ public class Day2(string _input) : IDay
         return result.ToString();
     }
 
-    private static bool CheckValidity(List<int> list)
+    private static bool CheckValidity(IEnumerable<int> list)
     {
         bool inc = true;
         bool dec = true;
         // Check increase
         int i = 0;
-        while (i+1 < list.Count)
+        while (i+1 < list.Count())
         {
             var increase = 0;
-            if (list[i] > list[i+1])
+            if (list.ElementAt(i) > list.ElementAt(i+1))
             {
                 increase = -1;
             }
-            else if (list[i] < list[i+1])
+            else if (list.ElementAt(i) < list.ElementAt(i+1))
             {
                 increase = 1;
             }
-            var diff = Lib.difference(list[i], list[i+1]);
+
+            var diff = Lib.difference(list.ElementAt(i), list.ElementAt(i+1));
             if (increase > 0 && diff >= 1 && diff <= 3)
             {
                 i++;
@@ -52,20 +54,22 @@ public class Day2(string _input) : IDay
             inc = false;
             break;
         }
+        if (inc) return true;
 
         i = 0;
-        while (i+1 < list.Count)
+        while (i+1 < list.Count())
         {
             var increase = 0;
-            if (list[i] > list[i+1])
+            if (list.ElementAt(i) > list.ElementAt(i+1))
             {
                 increase = -1;
             }
-            else if (list[i] < list[i+1])
+            else if (list.ElementAt(i) < list.ElementAt(i+1))
             {
                 increase = 1;
             }
-            var diff = Lib.difference(list[i], list[i+1]);
+
+            var diff = Lib.difference(list.ElementAt(i), list.ElementAt(i+1));
             if (increase < 0 && diff >= 1 && diff <= 3)
             {
                 i++;
@@ -75,7 +79,7 @@ public class Day2(string _input) : IDay
             break;
         }
 
-        return inc || dec;
+        return dec;
     }
 
     public string Part2()
@@ -96,26 +100,23 @@ public class Day2(string _input) : IDay
             }
             else
             {
-                List<int> tempValues = new (values);
-                int i = 0;
-                while (i < tempValues.Count)
-                {
-                    tempValues.RemoveAt(i);
+                SkipList<int> skipList = new(values, -1);
 
-                    if (CheckValidity(tempValues))
+                int i = 0;
+                while (i < values.Count)
+                {
+                    skipList.UpdateSkipIndex(i);
+
+                    if (CheckValidity(skipList))
                     {
                         result += 1;
                         i++;
-                        tempValues = new (values);
                         break;
                     }
                     
                     i++;
-                    tempValues = new (values);
                 }
             }
-
-            //result += D2.worksWithRemovalRunner(values) ? 1 : 0;
         }
 
         return result.ToString();
