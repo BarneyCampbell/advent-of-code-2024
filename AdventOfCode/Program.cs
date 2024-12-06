@@ -29,6 +29,7 @@ public class Aoc
             "2" => new Day2(input),
             "3" => new Day3(input),
             "4" => new Day4(input),
+            "6" => new Day6(input),
             _   => new Day1(input)
         };
 
